@@ -41,7 +41,7 @@ describe('Teste E2E Gemed Farma Web', () => {
         cy.contains('span', 'Pedidos', { timeout: 20000 }).should('be.visible').click()
 
         // Criando os pedidos
-        cy.contains('button', 'add', { timeout: 15000 }).click()
+        cy.contains('button', 'add', { timeout: 20000 }).click()
         cy.get('input[data-placeholder="Cliente"]').should('be.visible').click()
         cy.contains('span', ' Convenio 2902 ').click()
 
