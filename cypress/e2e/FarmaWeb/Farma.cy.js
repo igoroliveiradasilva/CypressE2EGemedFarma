@@ -2,6 +2,18 @@
 
 describe('Teste E2E Gemed Farma Web', () => {
 
+    // Ajustar nome do paciente de acordo com a revisão
+    const nomePaciente = 'Teste 10'
+
+    // Selecionar o elemento dentro de uma lista
+    function selecionarElemento(pacienteNome, index = 0) {
+        cy.get('a.linkProntuario')
+            .filter((i, el) => el.innerText.trim() === pacienteNome)
+            .eq(index)
+            .parents('tr')
+            .dblclick()
+    }
+
     // Data formatada para utilizar no campo "Data Tratamento"
     const hoje = new Date()
     const amanha = new Date(hoje)
@@ -10,9 +22,6 @@ describe('Teste E2E Gemed Farma Web', () => {
     const mes = String(amanha.getMonth() + 1).padStart(2, '0')
     const ano = amanha.getFullYear()
     const dataFormatada = `${dia}/${mes}/${ano}`
-
-    // Ajustar nome do paciente de acordo com a revisão
-    const nomePaciente = 'Teste 10'
 
     it('Realiza o login no Farma', () => {
         cy.visit("https://hml.gemed.app.br/farma-beta/users/log-in", { timeout: 120000, failOnStatusCode: false })
@@ -26,7 +35,7 @@ describe('Teste E2E Gemed Farma Web', () => {
         cy.wait(8000)
     })
 
-    it.only('Etapa dos Pedidos', () => {
+    it('Etapa dos Pedidos', () => {
         // Login novamnete no Gemed (necessário)
         cy.visit("https://hml.gemed.app.br/farma-beta/users/log-in", { timeout: 120000, failOnStatusCode: false })
         cy.get('[data-test="gemed-input-usuario"]', { timeout: 40000 }).should('be.visible').type('Admin')
@@ -37,6 +46,8 @@ describe('Teste E2E Gemed Farma Web', () => {
         cy.get('.mat-radio-button', { timeout: 40000 }).first().click()
         cy.contains('button', 'Confirmar', { timeout: 20000 }).click()
         cy.wait(12000)
+
+        //Entrando na tela de pedidos
         cy.contains('mat-icon', 'reorder', { timeout: 20000 }).click({ force: true })
         cy.contains('span', 'Pedidos', { timeout: 20000 }).should('be.visible').click()
 
@@ -121,4 +132,28 @@ describe('Teste E2E Gemed Farma Web', () => {
         cy.contains('button', 'Gravar ').click()
         cy.wait(3000)
     })
+
+    it.only('Etapa de Digitação', () => {
+        //Login no Gemed (necessário)
+        cy.visit("https://hml.gemed.app.br/farma-beta/users/log-in", { timeout: 120000, failOnStatusCode: false })
+        cy.get('[data-test="gemed-input-usuario"]', { timeout: 40000 }).should('be.visible').type('Admin')
+        cy.get('[data-test="gemed-input-senha"]').type('AzureIP')
+        cy.get('[data-test="gemed-input-clinica"]').type('AvFarma')
+        cy.contains('button', 'Entrar').click()
+        cy.contains('Seleciona uma clínica', { timeout: 40000 }).should('be.visible')
+        cy.get('.mat-radio-button', { timeout: 40000 }).first().click()
+        cy.contains('button', 'Confirmar', { timeout: 20000 }).click()
+        cy.wait(12000)
+        cy.contains('mat-icon', 'reorder', { timeout: 20000 }).click({ force: true })
+        cy.contains('span', 'Pedidos', { timeout: 20000 }).should('be.visible').click()
+
+        //Digitação Faslodex
+        cy.log('=== Pedido 1 ===')
+        selecionarElemento(nomePaciente, 0)
+        cy.contains('button', 'Digitação').click()
+        cy.get('input[data-placeholder="Seleção de Protocolo..."]').type("FASLODEX")
+        cy.contains('span', ' FASLODEX - FULVESTRANTO 500MG INTRAMUSCULAR NO D1, D15 E D29. SUBSEQUENTES A CADA 28 DIAS. APLICAR 1 SERINGA DE 250MG EM CADA NÁDEGA ').click()
+        cy.contains('span', ' FASLODEX ').click()
+        cy.contains('button', ' Próximo').click()
+    });
 })
