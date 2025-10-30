@@ -134,7 +134,7 @@ describe('Teste E2E Gemed Farma Web', () => {
     })
 
     it.only('Etapa de Digitação', () => {
-        //Login no Gemed (necessário)
+        // Login no Gemed (necessário)
         cy.visit("https://hml.gemed.app.br/farma-beta/users/log-in", { timeout: 120000, failOnStatusCode: false })
         cy.get('[data-test="gemed-input-usuario"]', { timeout: 40000 }).should('be.visible').type('Admin')
         cy.get('[data-test="gemed-input-senha"]').type('AzureIP')
@@ -147,13 +147,33 @@ describe('Teste E2E Gemed Farma Web', () => {
         cy.contains('mat-icon', 'reorder', { timeout: 20000 }).click({ force: true })
         cy.contains('span', 'Pedidos', { timeout: 20000 }).should('be.visible').click()
 
-        //Digitação Faslodex
+        // Digitação Faslodex
+        // Seleção de protocolo
         cy.log('=== Pedido 1 ===')
         selecionarElemento(nomePaciente, 0)
         cy.contains('button', 'Digitação').click()
         cy.get('input[data-placeholder="Seleção de Protocolo..."]').type("FASLODEX")
         cy.contains('span', ' FASLODEX - FULVESTRANTO 500MG INTRAMUSCULAR NO D1, D15 E D29. SUBSEQUENTES A CADA 28 DIAS. APLICAR 1 SERINGA DE 250MG EM CADA NÁDEGA ').click()
         cy.contains('span', ' FASLODEX ').click()
-        cy.contains('button', ' Próximo').click()
+        cy.contains('button', ' Próximo', { timeout: 5000 }).should('be.visible').click()
+        // Configuração de principio ativo
+        cy.contains('span', nomePaciente).click()
+        cy.get('input.mat-input-element').eq(3).type('70000')
+        cy.get('input.mat-input-element').eq(4).type('175')
+        cy.get('input[data-placeholder="Médico"]', { timeout: 10000 }).click()
+        cy.get('span.mat-option-text', { timeout: 10000 }).first().click()
+        cy.get('button').filter(':visible').contains(' Próximo').click()
+
+        // Programação
+        cy.get('.mat-select-arrow').eq(2).click({ force: true })
+        cy.get('.cdk-overlay-pane', { timeout: 10000 }).should('be.visible')
+        cy.get('.cdk-overlay-pane span.mat-option-text').contains('Ciclo').click({ force: true })
+        cy.get('input[data-placeholder="Intervalo"]').should('be.visible').and('not.be.disabled')
+        cy.get('input[data-placeholder="Intervalo"]').type('{selectall}1')
+        cy.get('input[data-placeholder="Dias"]').type('1')
+        cy.contains('button', ' Gerar Programação').click()
+        cy.get('button').filter(':visible').contains(' Próximo').click()
+        // Confrrmação
+        cy.contains('button', ' Gravar').click()
     });
 })
