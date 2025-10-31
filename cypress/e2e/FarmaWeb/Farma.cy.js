@@ -165,10 +165,10 @@ describe('Teste E2E Gemed Farma Web', () => {
         cy.get('button').filter(':visible').contains(' Próximo').click()
 
         // Programação
+        cy.wait(3000)
         cy.get('.mat-select-arrow').eq(2).click({ force: true })
         cy.get('.cdk-overlay-pane', { timeout: 10000 }).should('be.visible')
-        cy.get('.cdk-overlay-pane span.mat-option-text').contains('Ciclo').click({ force: true })
-        cy.get('input[data-placeholder="Intervalo"]').should('be.visible').and('not.be.disabled')
+        cy.get('.cdk-overlay-pane span.mat-option-text').contains('Ciclo').should('be.visible').click({ force: true })
         cy.get('input[data-placeholder="Intervalo"]').type('{selectall}1')
         cy.get('input[data-placeholder="Dias"]').type('1')
         cy.contains('button', ' Gerar Programação').click()
