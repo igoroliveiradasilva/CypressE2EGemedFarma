@@ -3,7 +3,7 @@
 describe('Teste E2E Gemed Farma Web', () => {
 
     // Ajustar nome do paciente de acordo com a revisão
-    const nomePaciente = 'Teste 10'
+    const nomePaciente = 'Teste tamoxifeno 2'
 
     // Selecionar o elemento dentro de uma lista
     function selecionarElemento(pacienteNome, index = 0) {
@@ -133,7 +133,7 @@ describe('Teste E2E Gemed Farma Web', () => {
         cy.wait(3000)
     })
 
-    it.only('Etapa de Digitação', () => {
+    it('Etapa de Digitação', () => {
         // Login no Gemed (necessário)
         cy.visit("https://hml.gemed.app.br/farma-beta/users/log-in", { timeout: 120000, failOnStatusCode: false })
         cy.get('[data-test="gemed-input-usuario"]', { timeout: 40000 }).should('be.visible').type('Admin')
@@ -158,12 +158,12 @@ describe('Teste E2E Gemed Farma Web', () => {
         cy.contains('button', ' Próximo', { timeout: 5000 }).should('be.visible').click()
         // Configuração de principio ativo
         cy.contains('span', nomePaciente).click()
+        cy.wait(2000)
         cy.get('input.mat-input-element').eq(3).type('70000')
         cy.get('input.mat-input-element').eq(4).type('175')
         cy.get('input[data-placeholder="Médico"]', { timeout: 10000 }).click()
         cy.get('span.mat-option-text', { timeout: 10000 }).first().click()
         cy.get('button').filter(':visible').contains(' Próximo').click()
-
         // Programação
         cy.wait(3000)
         cy.get('.mat-select-arrow').eq(2).click({ force: true })
@@ -171,6 +171,75 @@ describe('Teste E2E Gemed Farma Web', () => {
         cy.get('.cdk-overlay-pane span.mat-option-text').contains('Ciclo').should('be.visible').click({ force: true })
         cy.get('input[data-placeholder="Intervalo"]').type('{selectall}1')
         cy.get('input[data-placeholder="Dias"]').type('1')
+        cy.contains('button', ' Gerar Programação').click()
+        cy.get('button').filter(':visible').contains(' Próximo').click()
+        // Confrrmação
+        cy.contains('button', ' Gravar').click()
+
+        // Digitação Tamoxifeno 1
+        // Seleção de protocolo
+        cy.log('=== Pedido 2 ===')
+        selecionarElemento(nomePaciente, 0)
+        cy.contains('button', 'Digitação').click()
+        cy.get('input[data-placeholder="Seleção de Protocolo..."]').type("TAMOXIFENO")
+        cy.contains('span', ' TAMOXIFENO - TAMOXIFENO 20MG - CAIXA COM 30 COMPRIMIDOS - TOMAR 01 COMPRIMIDO/DIA ').click()
+        cy.contains('span', ' TAMOXIFENO ').click()
+        cy.contains('button', ' Próximo', { timeout: 5000 }).should('be.visible').click()
+        // Configuração de principio ativo
+        cy.get('input[data-placeholder="Médico"]', { timeout: 10000 }).click()
+        cy.get('span.mat-option-text', { timeout: 10000 }).first().click()
+        cy.get('span.mat-button-wrapper', { timeout: 5000 }).eq(6).click()
+        cy.get('input[data-placeholder="Quantidade"]').type('{selectall}60')
+        cy.contains('button', 'Confirmar').should('be.visible').click()
+        cy.get('button').filter(':visible').contains(' Próximo').click()
+        // Programação
+        cy.wait(3000)
+        cy.contains('button', ' Gerar Programação').click()
+        cy.get('button').filter(':visible').contains(' Próximo').click()
+        // Confrrmação
+        cy.contains('button', ' Gravar').click()
+
+        // Digitação Tamoxifeno 2
+        // Seleção de protocolo
+        cy.log('=== Pedido 2 ===')
+        selecionarElemento(nomePaciente, 0)
+        cy.contains('button', 'Digitação').click()
+        cy.get('input[data-placeholder="Seleção de Protocolo..."]').type("TAMOXIFENO")
+        cy.contains('span', ' TAMOXIFENO - TAMOXIFENO 20MG - CAIXA COM 30 COMPRIMIDOS - TOMAR 01 COMPRIMIDO/DIA ').click()
+        cy.contains('span', ' TAMOXIFENO ').click()
+        cy.contains('button', ' Próximo', { timeout: 5000 }).should('be.visible').click()
+        // Configuração de principio ativo
+        cy.get('input[data-placeholder="Médico"]', { timeout: 10000 }).click()
+        cy.get('span.mat-option-text', { timeout: 10000 }).first().click()
+        cy.contains('span', 'edit', { timeout: 5000 }).click()
+        cy.get('input[data-placeholder="Quantidade"]').type('{selectall}60')
+        cy.contains('button', 'Confirmar').should('be.visible').click()
+        cy.get('button').filter(':visible').contains(' Próximo').click()
+        // Programação
+        cy.wait(3000)
+        cy.contains('button', ' Gerar Programação').click()
+        cy.get('button').filter(':visible').contains(' Próximo').click()
+        // Confrrmação
+        cy.contains('button', ' Gravar').click()
+
+        // Digitação Tamoxifeno 3
+        // Seleção de protocolo
+        cy.log('=== Pedido 2 ===')
+        selecionarElemento(nomePaciente, 0)
+        cy.contains('button', 'Digitação').click()
+        cy.get('input[data-placeholder="Seleção de Protocolo..."]').type("TAMOXIFENO")
+        cy.contains('span', ' TAMOXIFENO - TAMOXIFENO 20MG - CAIXA COM 30 COMPRIMIDOS - TOMAR 01 COMPRIMIDO/DIA ').click()
+        cy.contains('span', ' TAMOXIFENO ').click()
+        cy.contains('button', ' Próximo', { timeout: 5000 }).should('be.visible').click()
+        // Configuração de principio ativo
+        cy.get('input[data-placeholder="Médico"]', { timeout: 10000 }).click()
+        cy.get('span.mat-option-text', { timeout: 10000 }).first().click()
+        cy.contains('span', 'edit', { timeout: 5000 }).click()
+        cy.get('input[data-placeholder="Quantidade"]').type('{selectall}60')
+        cy.contains('button', 'Confirmar').should('be.visible').click()
+        cy.get('button').filter(':visible').contains(' Próximo').click()
+        // Programação
+        cy.wait(3000)
         cy.contains('button', ' Gerar Programação').click()
         cy.get('button').filter(':visible').contains(' Próximo').click()
         // Confrrmação
