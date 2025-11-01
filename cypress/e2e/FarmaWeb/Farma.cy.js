@@ -3,7 +3,7 @@
 describe('Teste E2E Gemed Farma Web', () => {
 
     // Ajustar nome do paciente de acordo com a revisão
-    const nomePaciente = 'Teste tamoxifeno 2'
+    const nomePaciente = 'Teste cypress 2'
 
     // Selecionar o elemento dentro de uma lista
     function selecionarElemento(pacienteNome, index = 0) {
@@ -201,7 +201,7 @@ describe('Teste E2E Gemed Farma Web', () => {
 
         // Digitação Tamoxifeno 2
         // Seleção de protocolo
-        cy.log('=== Pedido 2 ===')
+        cy.log('=== Pedido 3 ===')
         selecionarElemento(nomePaciente, 0)
         cy.contains('button', 'Digitação').click()
         cy.get('input[data-placeholder="Seleção de Protocolo..."]').type("TAMOXIFENO")
@@ -211,7 +211,7 @@ describe('Teste E2E Gemed Farma Web', () => {
         // Configuração de principio ativo
         cy.get('input[data-placeholder="Médico"]', { timeout: 10000 }).click()
         cy.get('span.mat-option-text', { timeout: 10000 }).first().click()
-        cy.contains('span', 'edit', { timeout: 5000 }).click()
+        cy.get('span.mat-button-wrapper', { timeout: 5000 }).eq(6).click()
         cy.get('input[data-placeholder="Quantidade"]').type('{selectall}60')
         cy.contains('button', 'Confirmar').should('be.visible').click()
         cy.get('button').filter(':visible').contains(' Próximo').click()
@@ -224,7 +224,7 @@ describe('Teste E2E Gemed Farma Web', () => {
 
         // Digitação Tamoxifeno 3
         // Seleção de protocolo
-        cy.log('=== Pedido 2 ===')
+        cy.log('=== Pedido 4 ===')
         selecionarElemento(nomePaciente, 0)
         cy.contains('button', 'Digitação').click()
         cy.get('input[data-placeholder="Seleção de Protocolo..."]').type("TAMOXIFENO")
@@ -234,8 +234,50 @@ describe('Teste E2E Gemed Farma Web', () => {
         // Configuração de principio ativo
         cy.get('input[data-placeholder="Médico"]', { timeout: 10000 }).click()
         cy.get('span.mat-option-text', { timeout: 10000 }).first().click()
-        cy.contains('span', 'edit', { timeout: 5000 }).click()
+        cy.get('span.mat-button-wrapper', { timeout: 5000 }).eq(6).click()
         cy.get('input[data-placeholder="Quantidade"]').type('{selectall}60')
+        cy.contains('button', 'Confirmar').should('be.visible').click()
+        cy.get('button').filter(':visible').contains(' Próximo').click()
+        // Programação
+        cy.wait(3000)
+        cy.contains('button', ' Gerar Programação').click()
+        cy.get('button').filter(':visible').contains(' Próximo').click()
+        // Confrrmação
+        cy.contains('button', ' Gravar').click()
+
+        // Digitação AC 1
+        // Seleção de protocolo
+        cy.log('=== Pedido 5 ===')
+        selecionarElemento(nomePaciente, 0)
+        cy.contains('button', 'Digitação').click()
+        cy.get('input[data-placeholder="Seleção de Protocolo..."]').type("DOXORRUBICINA 60")
+        cy.contains('span', ' AC - DOXORRUBICINA 60 MG/M² + CICLOFOSFAMIDA 600 MG/M², A CADA 21 DIAS ').click()
+        cy.contains('span', ' AC ').click()
+        cy.contains('button', ' Próximo', { timeout: 5000 }).should('be.visible').click()
+        // Configuração de principio ativo
+        cy.get('input[data-placeholder="Médico"]', { timeout: 10000 }).click()
+        cy.get('span.mat-option-text', { timeout: 10000 }).first().click()
+        cy.contains('button', 'Confirmar').should('be.visible').click()
+        cy.get('button').filter(':visible').contains(' Próximo').click()
+        // Programação
+        cy.wait(3000)
+        cy.contains('button', ' Gerar Programação').click()
+        cy.get('button').filter(':visible').contains(' Próximo').click()
+        // Confrrmação
+        cy.contains('button', ' Gravar').click()
+
+        // Digitação AC 2
+        // Seleção de protocolo
+        cy.log('=== Pedido 6 ===')
+        selecionarElemento(nomePaciente, 0)
+        cy.contains('button', 'Digitação').click()
+        cy.get('input[data-placeholder="Seleção de Protocolo..."]').type("DOXORRUBICINA 60")
+        cy.contains('span', ' AC - DOXORRUBICINA 60 MG/M² + CICLOFOSFAMIDA 600 MG/M², A CADA 21 DIAS ').click()
+        cy.contains('span', ' AC ').click()
+        cy.contains('button', ' Próximo', { timeout: 5000 }).should('be.visible').click()
+        // Configuração de principio ativo
+        cy.get('input[data-placeholder="Médico"]', { timeout: 10000 }).click()
+        cy.get('span.mat-option-text', { timeout: 10000 }).first().click()
         cy.contains('button', 'Confirmar').should('be.visible').click()
         cy.get('button').filter(':visible').contains(' Próximo').click()
         // Programação
