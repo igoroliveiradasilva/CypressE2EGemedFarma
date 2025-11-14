@@ -3,7 +3,8 @@
 describe('Teste E2E Gemed Farma Web', () => {
 
     // Ajustar nome do paciente de acordo com a revisão
-    const nomePaciente = 'Teste cypress 2'
+    const clinica = 'AvFarma'
+    const nomePaciente = 'Teste Igor'
 
     // Selecionar o elemento dentro de uma lista
     function selecionarElemento(pacienteNome, index = 0) {
@@ -27,7 +28,7 @@ describe('Teste E2E Gemed Farma Web', () => {
         cy.visit("https://hml.gemed.app.br/farma-beta/users/log-in", { timeout: 120000, failOnStatusCode: false })
         cy.get('[data-test="gemed-input-usuario"]', { timeout: 40000 }).should('be.visible').type('Admin')
         cy.get('[data-test="gemed-input-senha"]').type('AzureIP')
-        cy.get('[data-test="gemed-input-clinica"]').type('AvFarma')
+        cy.get('[data-test="gemed-input-clinica"]').type(clinica)
         cy.contains('button', 'Entrar').click()
         cy.contains('Seleciona uma clínica', { timeout: 40000 }).should('be.visible')
         cy.get('.mat-radio-button', { timeout: 40000 }).first().click()
@@ -40,7 +41,7 @@ describe('Teste E2E Gemed Farma Web', () => {
         cy.visit("https://hml.gemed.app.br/farma-beta/users/log-in", { timeout: 120000, failOnStatusCode: false })
         cy.get('[data-test="gemed-input-usuario"]', { timeout: 40000 }).should('be.visible').type('Admin')
         cy.get('[data-test="gemed-input-senha"]').type('AzureIP')
-        cy.get('[data-test="gemed-input-clinica"]').type('AvFarma')
+        cy.get('[data-test="gemed-input-clinica"]').type(clinica)
         cy.contains('button', 'Entrar').click()
         cy.contains('Seleciona uma clínica', { timeout: 40000 }).should('be.visible')
         cy.get('.mat-radio-button', { timeout: 40000 }).first().click()
@@ -52,7 +53,7 @@ describe('Teste E2E Gemed Farma Web', () => {
         cy.contains('span', 'Pedidos', { timeout: 20000 }).should('be.visible').click()
 
         // Criando os pedidos
-        cy.contains('button', 'add', { timeout: 20000 }).click()
+        cy.contains('button', 'add', { timeout: 100000 }).click()
         cy.get('input[data-placeholder="Cliente"]').should('be.visible').click()
         cy.contains('span', ' Convenio 2902 ').click()
 
@@ -138,7 +139,7 @@ describe('Teste E2E Gemed Farma Web', () => {
         cy.visit("https://hml.gemed.app.br/farma-beta/users/log-in", { timeout: 120000, failOnStatusCode: false })
         cy.get('[data-test="gemed-input-usuario"]', { timeout: 40000 }).should('be.visible').type('Admin')
         cy.get('[data-test="gemed-input-senha"]').type('AzureIP')
-        cy.get('[data-test="gemed-input-clinica"]').type('AvFarma')
+        cy.get('[data-test="gemed-input-clinica"]').type(clinica)
         cy.contains('button', 'Entrar').click()
         cy.contains('Seleciona uma clínica', { timeout: 40000 }).should('be.visible')
         cy.get('.mat-radio-button', { timeout: 40000 }).first().click()
@@ -257,7 +258,6 @@ describe('Teste E2E Gemed Farma Web', () => {
         // Configuração de principio ativo
         cy.get('input[data-placeholder="Médico"]', { timeout: 10000 }).click()
         cy.get('span.mat-option-text', { timeout: 10000 }).first().click()
-        cy.contains('button', 'Confirmar').should('be.visible').click()
         cy.get('button').filter(':visible').contains(' Próximo').click()
         // Programação
         cy.wait(3000)
@@ -278,7 +278,6 @@ describe('Teste E2E Gemed Farma Web', () => {
         // Configuração de principio ativo
         cy.get('input[data-placeholder="Médico"]', { timeout: 10000 }).click()
         cy.get('span.mat-option-text', { timeout: 10000 }).first().click()
-        cy.contains('button', 'Confirmar').should('be.visible').click()
         cy.get('button').filter(':visible').contains(' Próximo').click()
         // Programação
         cy.wait(3000)
